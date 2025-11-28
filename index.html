@@ -2,11 +2,13 @@
 
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel = stylesheet href = "src/styles/style.css">
     </head>
     <body>
         <div class="main">
-            <h1>Automated-Teller-Web</h1>
+
+            <h1 class = 'title-page'>Automated-Teller-Site</h1>
 
             <div id = "pin-field">
                 <input
@@ -20,11 +22,57 @@
                 <button id = pin-btn>submit</button>
                 <p id = "message"></p>
             </div>
-            
-            <div></div>
+                        
+            <div id="user-interactions">
+                <div id ="check-balance" class = "main-buttons">
+                    Check Balance
+                </div>
+
+                <div id ="withdraw"  class = "main-buttons">
+                    Withdraw
+                </div>
+
+                <div id="deposit"  class = "main-buttons">
+                    Deposit
+                </div>
+
+                <div id="transaction"  class = "main-buttons">
+                    Transactions
+                </div>
+
+                <div id="exit-inter-btn"  class = "main-buttons">
+                    Exit
+                </div>
+            </div>
+
+           <div id = "check-balance-page">
+                <div id = "balance-card-box">
+                    <span class="material-symbols-outlined">
+                        credit_card
+                    </span>
+                    <h2 id ="balance-amount">0</h2>
+                    <p id = "title-balance"> Your Balance</p>
+                    <p id = "date-balance"></p>
+                </div>
+                <button id = 'exit-balance-btn' class = 'exitbtn'>Exit</button>
+           </div>
+
+           <div id="withdraw-page">
+                <div id="withdraw-box">
+                    <p id = "withdraw-warning"></p>
+                    <input type = "numeric" 
+                    maxlength="5" 
+                    inputmode="numeric" 
+                    placeholder="0"
+                    id = 'withdraw-input'>
+
+                    <p id="inform-bal"> You have a balance of: N </p>
+                    <button id = "withdraw-button">Withdraw</button>
+                </div>
+                <button id = 'exit-withdraw-btn' class = 'exitbtn'>Exit</button>
+           </div>
         </div>
     </body>
-<script src = "src/codes/timer.js"> </script>
 <script src = "src/codes/fireBaseConfig.js" type = "module"></script>
-<script src = 'src/codes/atm.js' type = module > </script>
+<script src = 'src/codes/atw.js' type = module > </script>
 </html>

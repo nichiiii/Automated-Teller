@@ -2,9 +2,120 @@
 
 *{
     box-sizing: border-box;
+    margin:0;
     font-family: "poppins", sans-serif;
+}
+.main{
+    height:100vh;
+    width:100vw;
+
+}
+.title-page{
+    width: 100%;
+    position:absolute;
+    text-align: center;
+    top:20px
 }
 
 #pin-field{
-    display:none
+    display:flex
+}
+/*interaction section*/
+#user-interactions{
+    display:none;
+    flex-direction: column;
+    justify-content: center;
+    height: inherit;
+}
+
+/*balance section*/
+#check-balance-page{
+    display: none;
+    flex-direction: column;
+    height: inherit;
+    justify-content: center;
+    align-items: center;
+}
+
+#balance-card-box{
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    grid-template-rows: repeat(8, 60px);
+    padding: 20px;
+    width: 400px;
+    height: 550px;
+    border-radius: 30px;
+    box-shadow: 1px 1px 10px 5px #d7d7d7;
+}
+
+#balance-card-box h2{
+    font-size: 40px;
+    text-align: center;
+    grid-area: 5 / 2 / 6 / 6;
+}
+#title-balance{
+    text-align: center;
+    grid-area: 6 / 3 / 6 / 5;
+}
+#date-balance{
+    grid-area:  7 / 3 / 8 / 8;
+}
+
+.material-symbols-outlined { 
+    text-align: center;
+    grid-area:  3 / 3 / 8 / 5;
+    font-size: 70px; 
+    font-variation-settings:
+        'wght' 200;
+}
+.exitbtn{
+    position:relative;
+    top:35px;
+    width: 100px;
+    font-size: 20px;
+    background:none;
+    padding: 10px;
+    border: solid 1px #333;
+    border-radius: 20px;
+}
+
+/*withdraw section*/
+#withdraw-page{
+    display: none;
+    flex-direction: column;
+    height: inherit;
+    justify-content: center;
+    align-items: center;
+}
+
+#withdraw-box{
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    grid-template-rows: repeat(8, 60px);
+    padding: 20px;
+    width: 400px;
+    height: 550px;
+    border-radius: 30px;
+    box-shadow: 1px 1px 10px 5px #d7d7d7;
+}
+
+#withdraw-input{
+    grid-area:  3 / 1 / 5 / 7;
+    border: none;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+#inform-bal{
+    grid-area:  5 / 1 / 6 / 7;
+    text-align: center;
+}
+
+#withdraw-button{
+    grid-area:  7 / 2 / 8 / 6;
+    background: none;
+    border: solid 1px #333;
+    border-radius:20px;
+    font-size: 15px;
 }
