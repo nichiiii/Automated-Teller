@@ -5,7 +5,19 @@
         <link rel = stylehsset src = "style.css">
     </head>
     <body>
-        
+        <div class="main">
+            <h1>ATM</h1>
+
+            <input   
+                    id = "pin-val" 
+                    type = "password"
+                    maxlength="6" 
+                    inputmode = "numeric" 
+                    pattern="\d*">
+
+            <button id = pin-btn>submit</button>
+        </div>
     </body>
-<script src = 'atm.js'> </script>
+<script src = "src/codes/fireBaseConfig.js" type = "module"></script>
+<script src = 'src/codes/atm.js' type = module > </script>
 </html>
