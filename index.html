@@ -2,22 +2,29 @@
 
 <html lang="en">
     <head>
-        <link rel = stylehsset src = "style.css">
+        <link rel = stylesheet href = "src/styles/style.css">
     </head>
     <body>
         <div class="main">
-            <h1>ATM</h1>
+            <h1>Automated-Teller-Web</h1>
 
-            <input   
-                    id = "pin-val" 
-                    type = "password"
-                    maxlength="6" 
-                    inputmode = "numeric" 
-                    pattern="\d*">
-
-            <button id = pin-btn>submit</button>
+            <div id = "pin-field">
+                <input
+                        id = "pin-val" 
+                        type = "password"
+                        maxlength="6" 
+                        inputmode = "numeric" 
+                        pattern="\d*"
+                        placeholder = "Enter your 6-digit pin">
+                
+                <button id = pin-btn>submit</button>
+                <p id = "message"></p>
+            </div>
+            
+            <div></div>
         </div>
     </body>
+<script src = "src/codes/timer.js"> </script>
 <script src = "src/codes/fireBaseConfig.js" type = "module"></script>
 <script src = 'src/codes/atm.js' type = module > </script>
 </html>
