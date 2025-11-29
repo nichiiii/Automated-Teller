@@ -10,6 +10,8 @@
 
             <h1 class = 'title-page'>Automated-Teller-Site</h1>
 
+        <!--PinField Section-->
+
             <div id = "pin-field">
                 <input
                         id = "pin-val" 
@@ -19,10 +21,12 @@
                         pattern="\d*"
                         placeholder = "Enter your 6-digit pin">
                 
-                <button id = pin-btn>submit</button>
+                <button id = pin-btn>Enter</button>
                 <p id = "message"></p>
             </div>
-                        
+            
+        <!--UserInteraction Section-->   
+
             <div id="user-interactions">
                 <div id ="check-balance" class = "main-buttons">
                     Check Balance
@@ -45,8 +49,10 @@
                 </div>
             </div>
 
-           <div id = "check-balance-page">
-                <div id = "balance-card-box">
+        <!--CheckBalance Section-->
+
+           <div id = "check-balance-page" >
+                <div class = "box-card">
                     <span class="material-symbols-outlined">
                         credit_card
                     </span>
@@ -57,8 +63,10 @@
                 <button id = 'exit-balance-btn' class = 'exitbtn'>Exit</button>
            </div>
 
+        <!--Withdraw Section-->
+
            <div id="withdraw-page">
-                <div id="withdraw-box">
+                <div class = "box-card">
                     <p id = "withdraw-warning"></p>
                     <input type = "numeric" 
                     maxlength="5" 
@@ -71,7 +79,27 @@
                 </div>
                 <button id = 'exit-withdraw-btn' class = 'exitbtn'>Exit</button>
            </div>
+
+        <!--Deposit Section-->
+
+           <div id = "deposit-page">
+                <div  class = "box-card">
+                    <h4>Total Deposit</h4>
+                    <input type = "numeric" 
+                    maxlength="5" 
+                    inputmode="numeric" 
+                    placeholder="0"
+                    id = 'deposit-input'>
+                    <p id="note">You can only deposit below or equal to 100,000</p>
+                    <button id = 'deposit-btn'>Deposit</button>
+                </div>
+                 <button id = 'exit-deposit-btn' class = 'exitbtn'>Exit</button>
+           </div>
         </div>
+
+        <!--Transaction Section-->
+
+        
     </body>
 <script src = "src/codes/fireBaseConfig.js" type = "module"></script>
 <script src = 'src/codes/atw.js' type = module > </script>
