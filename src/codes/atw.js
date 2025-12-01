@@ -65,25 +65,20 @@ onValue(refer, async(ss)=>{
 /**
  * REUSABLE FUNCTIONS
  */
-function addTransac(amount, type){
+async function addTransac(amount, type){
     const currentPin = currentUserInfo[0]
     const transactPath = `accounts/pins/${currentPin}/transaction`
     const pinPath = `accounts/pins/${currentPin}`
     const userBal= currentUserInfo[1].balance
    
-    update(ref(getDB, pinPath), {balance : userBal})
-    push(ref(getDB, transactPath), {
+    await update(ref(getDB, pinPath), {balance : userBal})
+    await push(ref(getDB, transactPath), {
         type : type, 
         amount : amount,
         time : normalDate 
     })
 }
 
-async function takeCurrentAccount(curPin){
-     const currAcc = pins.find((e)=>{
-        curPin == e[0]
-     })
-}
 /**
  * PIN SECTION
  */
