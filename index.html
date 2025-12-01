@@ -82,7 +82,7 @@
 
         <!--Deposit Section-->
 
-           <div id = "deposit-page">
+            <div id = "deposit-page">
                 <div  class = "box-card">
                     <h4>Total Deposit</h4>
                     <input type = "numeric" 
@@ -95,10 +95,23 @@
                 </div>
                  <button id = 'exit-deposit-btn' class = 'exitbtn'>Exit</button>
            </div>
-        </div>
-
+     
         <!--Transaction Section-->
+              
+           <div id = transaction-section>
+                <h3>Transactions</h3>
 
+                <table id = "transaction-table">   
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                    </tr>
+                </table>
+                <button id = "transac-exit" class = "exitbtn">Exit</button>
+           </div>
+           
+        </div>
         
     </body>
 <script src = "src/codes/fireBaseConfig.js" type = "module"></script>

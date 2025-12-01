@@ -17,7 +17,8 @@ const depoField = document.getElementById('deposit-page')
 //INTERACTION BUTTONS
 const checkBalEnter = document.getElementById('check-balance')
 const withdrawEnter = document.getElementById('withdraw')
-const transEnter = document.getElementById("deposit")
+const depoEnter = document.getElementById("deposit")
+const transEnter = document.getElementById('transaction')
 
 //CHECK BALANCE ELEMENTS
 const dateBalance = document.getElementById('date-balance')
@@ -36,18 +37,26 @@ const desposInput = document.getElementById("deposit-input")
 const depositBtn = document.getElementById('deposit-btn')
 const depositExit = document.getElementById('exit-deposit-btn')
 
+//TRANSACTION ELEMENTS
+const transSection = document.getElementById("transaction-section");
+let transTable = document.getElementById("transaction-table");
+const transacExit = document.getElementById('transac-exit');
+
 //EXIT
 const exitInter = document.getElementById("exit-inter-btn")
 
 let pins = []
-let currentPin = 123456
+let currentUserInfo
 let attempts = 3
-let userBalance = 0
+
+const dateArr = Date().split(" ");
+const monthtoyear = dateArr.splice(0,4)
+const normalDate = monthtoyear.join(' ')
 
 onValue(refer, async(ss)=>{
     try{
         const snapshot = await ss.val()
-        pins = Object.keys(snapshot.pins) 
+        pins = Object.entries(snapshot.pins)
     }
     catch(e){
         console.log(e)
@@ -56,23 +65,28 @@ onValue(refer, async(ss)=>{
 /**
  * REUSABLE FUNCTIONS
  */
-
-function updateTransac(amount, type){
+function addTransac(amount, type){
+    const currentPin = currentUserInfo[0]
     const transactPath = `accounts/pins/${currentPin}/transaction`
     const pinPath = `accounts/pins/${currentPin}`
-
-    update(ref(getDB, pinPath), {balance : userBalance})
+    const userBal= currentUserInfo[1].balance
+   
+    update(ref(getDB, pinPath), {balance : userBal})
     push(ref(getDB, transactPath), {
         type : type, 
         amount : amount,
-        time : Date()
+        time : normalDate 
     })
+}
+
+async function takeCurrentAccount(curPin){
+     const currAcc = pins.find((e)=>{
+        curPin == e[0]
+     })
 }
 /**
  * PIN SECTION
- *  This area handles pin verfication from the firebase
  */
-
 //restrict user to input non numeric pins
 pinVal.addEventListener('input', function(){
     let value = this.value;
@@ -82,15 +96,13 @@ pinVal.addEventListener('input', function(){
 pinSubmit.addEventListener("click", async function (){
     const pinToCheck = pinVal.value
     const pinExist = pins.find((e) => {
-        return pinToCheck == e
+        if(pinToCheck == e[0]){
+            currentUserInfo = e
+            return true
+        }
     })
-    if (pinExist){
-        const fetch = await get(refer)
-        const data = fetch.val()
-        const pinsData = data.pins
-        userBalance = pinsData[pinToCheck].balance
 
-        currentPin = pinToCheck
+    if (pinExist){
         pinField.style.display = "none"
         interField.style.display = 'flex'
     }
@@ -101,8 +113,8 @@ pinSubmit.addEventListener("click", async function (){
         }
         else if (attempts <= 0){
             this.disabled = true
-            let seconds = 3
-
+            let seconds = 30
+            attempts = 3
             let interval = setInterval(()=>{
                 pinMessage.textContent = `You dont have any attempts, wait for ${seconds} `
                 seconds --
@@ -120,16 +132,10 @@ pinSubmit.addEventListener("click", async function (){
 /**
  * CHECK-BALANCE 
  */
-
-const dateArr = Date().split(" ");
-const monthtoyear = dateArr.splice(0,4)
-const normalDate = monthtoyear.join(' ')
-
 dateBalance.textContent = normalDate
 
 checkBalEnter.addEventListener("click", async ()=>{
-    console.log(userBalance)
-    balanceAmount.innerText = `₱ ${userBalance}`
+    balanceAmount.innerText = `₱ ${currentUserInfo[1].balance}`
 
     interField.style.display = "none"
     balanceField.style.display = 'flex'
@@ -143,7 +149,6 @@ exitBalanceBtn.addEventListener("click", ()=>{
 /**
  * WITHDRAW
  */
-
 withdrawInput.addEventListener('input', function(){
     let value = this.value;
     this.value = value.replace(/\D/g, '');
@@ -151,8 +156,9 @@ withdrawInput.addEventListener('input', function(){
 
 withdrawBth.addEventListener('click', ()=>{
     let withAmount = Number(withdrawInput.value)
+    let userBal = currentUserInfo[1].balance
    
-    if(withAmount > userBalance || withAmount < 100){
+    if(withAmount > userBal|| withAmount < 100){
         const situation = withAmount < 100 ? 
         "Withdraw amount should be greater than 100 Pesos":
         'You dont have enough balance to make this transaction'
@@ -162,16 +168,16 @@ withdrawBth.addEventListener('click', ()=>{
             withWarning.textContent = ''
         }, 6000)
     }else{
-        userBalance = userBalance - withAmount
-        updateTransac(withAmount, 'withdraw')
-        infoBal.textContent = `You have a balance of ₱ ${userBalance}`
+        currentUserInfo[1].balance = userBal - withAmount
+        addTransac(withAmount, 'withdraw')
+        infoBal.textContent = `You have a balance of ₱ ${currentUserInfo[1].balance}`
     }
 })
 
 withdrawEnter.addEventListener('click', ()=>{
     withField.style.display = 'flex'
     interField.style.display = 'none'
-    infoBal.textContent = `You have a balance of ${userBalance}`
+    infoBal.textContent = `You have a balance of ₱ ${currentUserInfo[1].balance}`
 })
 
 withExit.addEventListener('click', ()=>{
@@ -182,7 +188,6 @@ withExit.addEventListener('click', ()=>{
 /**
  * DEPOSIT
  */
-
 desposInput.addEventListener('input', function(){
     let value = this.value;
     this.value = value.replace(/\D/g, '');
@@ -190,8 +195,10 @@ desposInput.addEventListener('input', function(){
 
 depositBtn.addEventListener('click', ()=>{
     let depoAmnt = Number(desposInput.value)
-    userBalance = userBalance + depoAmnt
-    updateTransac(depoAmnt, "deposit")
+    if(currentUserInfo[1].balance < 100000){
+        currentUserInfo[1].balance += depoAmnt
+        addTransac(depoAmnt, "deposit")
+    }
 })
 
 depositExit.addEventListener('click', ()=>{
@@ -199,27 +206,56 @@ depositExit.addEventListener('click', ()=>{
     interField.style.display = 'flex'
 })
 
-transEnter.addEventListener('click', ()=>{
-     depoField.style.display = 'flex'
+depoEnter.addEventListener('click', ()=>{
+    depoField.style.display = 'flex'
     interField.style.display = 'none'
 })
 
 /**
  * TRANSACTION
  */
+transEnter.addEventListener('click', async()=>{
+    const pin = currentUserInfo[0]
+    console.log(pin)
+    let path = `accounts/pins/${pin}/transaction`
+    let fetch = await get(ref(getDB, path))
+    let data = fetch.val()
+    let transacArr = data ? Object.entries(data) : false
 
+    let tableData = ""
+    if(transacArr){
+        transacArr.forEach((e)=>{
+            tableData += `
+            <tr>
+                <td>${e[1].time}</td>
+                <td>${e[1].amount}</td>
+                <td>${e[1].type}</td>
+            </tr>`
+        })
+    }
+    transTable.innerHTML += tableData
+    transSection.style.display = "flex"
+    interField.style.display = 'none'
+})
 
-
+transacExit.addEventListener('click', async()=>{
+    transTable.innerHTML = `    
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                    </tr>`
+    transSection.style.display = "none"
+    interField.style.display = 'flex'
+})
 
 /**
  * EXIT
  */
-
 exitInter.addEventListener('click', ()=>{
     interField.style.display = "none"
     pinField.style.display = 'flex'
 })
-
 
 
 
