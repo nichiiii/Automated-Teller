@@ -19,4 +19,5 @@ A simple Automated-Teller site where user can withdraw, deposit, and see transac
 To learn of how to read and write data using the real-time database provided by firebase
 
 ## Author 
-- Kim
+- Nichi
+  
